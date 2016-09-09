@@ -129,28 +129,28 @@ class soapClient {
         }
 
         $data['auth'] = [
-            'clientNumber' => $this->clientKey,
-            'clientKey' => $this->clientNumber,
+            'clientKey' => $this->clientKey,
+            'clientNumber' => $this->clientNumber,
         ];
 
         if($requestParam)
             $request[$requestParam] = $data;
         else
             $request = $data;
-        //var_dump($request); die();
+
 
         $response = null;
-       // try {
+        try {
             $response = $this->connection->$method($request);
-        /*    if(!$response){
+            if(!$response){
                 throw new \Exception('Failed to get a response');
             }
         }
         catch(\Exception $ex) {
             $this->setLastError('Error requesting data DPD:'.$method);
-        }*/
+        }
 
-        $result = $response ? $response : false;
+        $result = ($response) ? $response : false;
         $this->setLastResult($result);
 
         return $this->getResult();
