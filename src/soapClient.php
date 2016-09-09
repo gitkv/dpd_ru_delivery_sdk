@@ -138,7 +138,6 @@ class soapClient {
         else
             $request = $data;
 
-
         $response = null;
         try {
             $response = $this->connection->$method($request);
@@ -150,21 +149,38 @@ class soapClient {
             $this->setLastError('Error requesting data DPD:'.$method);
         }
 
-        $result = ($response) ? $response : false;
+        $result = ($response) ? $this->objectToArray($response)['return'] : false;
         $this->setLastResult($result);
 
-        return $this->getResult();
+        return $result;
     }
 
-    protected function getResult(){
-        if(!empty($this->getLastError())){
-            $result = $this->getLastError();
+    /**
+     * convert object to array
+     * @param $obj
+     * @param array $arr
+     * @return array|string
+     */
+    private function objectToArray($obj, $arr = array()) {
+        if(is_object($obj) || is_array($obj)) {
+            $arr = array();
+            for(reset($obj); list($k, $v) = each($obj);) {
+                if($k === "GLOBALS"){
+                    continue;
+                }
+                $arr[$k] = $this->objectToArray($v, $arr);
+            }
+            return $arr;
         }
-        else{
-            $result = $this->getLastResult();
+        elseif(gettype($obj) == 'boolean') {
+            return $obj ? 'true' : 'false';
         }
-
-        return $result;
+        else {
+            if(gettype($obj) == 'string'){
+                $obj = $obj;
+            }
+            return $obj;
+        }
     }
 
 }

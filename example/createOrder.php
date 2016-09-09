@@ -1,5 +1,4 @@
 <?
-print '<pre>';
 include '../bootstrap.php';
 
 //access
@@ -78,7 +77,7 @@ $orderEntity = $orderEntity
     ->setSenderAddress($senderAddress)
     ->setPickupTimePeriod('9-18')
     //->setRegularNum('1000')
-    ->setOrderNumberInternal('11')
+    ->setOrderNumberInternal('14')
     ->setServiceCode('CSM')
     ->setServiceVariant('ДД')
     ->setCargoNumPack(1)
@@ -99,5 +98,5 @@ $orderEntity = $orderEntity
 
 //create new order
 $order= $dpdSdk->getNewOrder();
-$test = $order->createOrder($orderEntity);
-print_r($test);
+$resultCreateOrder = $order->createOrder($orderEntity);
+var_dump($resultCreateOrder);
