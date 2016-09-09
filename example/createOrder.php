@@ -1,6 +1,6 @@
 <?
 print '<pre>';
-include 'bootstrap.php';
+include '../bootstrap.php';
 
 //access
 const CLIENT_NUMBER = '1001027795';
